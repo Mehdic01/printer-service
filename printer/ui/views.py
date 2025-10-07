@@ -82,3 +82,15 @@ def ui_reprint(request):
     new = create_job(src.type, src.payload)
     jobs = PrintJob.objects.order_by("-created_at")[:20]
     return render(request, "partials/jobs.html", {"jobs": jobs})
+
+@require_http_methods(["POST"])
+def ui_print_text(request):
+    text = request.POST.get("text", "")
+    lang = request.POST.get("lang", "tr")  
+    if not text.strip():
+        return HttpResponse("<div class='text-red-600'>Metin boş olamaz.</div>")
+    job = create_job("text", {"text": text, "lang": lang})  
+    jobs = PrintJob.objects.order_by("-created_at")[:20]
+    return render(request, "partials/jobs.html", {"jobs": jobs})
+
+

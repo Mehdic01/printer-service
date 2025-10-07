@@ -70,7 +70,14 @@ def _worker_loop():
 
         try:
             if job.type == "text":
-                drv.print_text(job.payload.get("text",""))
+                text = job.payload.get("text", "")
+                lang = job.payload.get("lang", "tr") 
+                if lang == "en":
+                    prefix = "\x1b\x52\x01"  # İngilizce karakter seti
+                else:
+                    prefix = "\x1b\x52\x00"  # Türkçe karakter seti
+                    
+                drv.print_text(text, prefix=prefix)
             elif job.type == "image":
                 b64 = job.payload.get("base64","")
                 img = Image.open(BytesIO(base64.b64decode(b64)))
