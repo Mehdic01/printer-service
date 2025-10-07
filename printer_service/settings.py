@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'printer',
+    'printer.apps.PrinterConfig', # bu satir eklendi cunku apps.py'de tanimladik
 ]
 
 MIDDLEWARE = [

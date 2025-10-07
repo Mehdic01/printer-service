@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from ..services.connection_manager import cm
 from ..models import PrintJob
+from ..services.job_queue import enqueue
 
 # bu post istegi ile yaziciya baglanilir
 #********************************************************************************************************************
@@ -34,11 +35,13 @@ def _create_or_get_job(_type, payload, idem_key):
         type=_type,
         payload=payload,
         conn_mode_snapshot=cm.mode,
-        status="ok",  # v0: hemen ok; 2. adımda worker'a taşıyacağız
+        status="pending",  # v0: hemen ok; 2. adımda worker'a taşıyacağız
+        # v1: status="pending", job_queue.enqueue(job) cunku artik job_queue var
     )
+    enqueue(job)  # job_queue modulu ile yazdirma islemi asenkron
     return job
 
-# text, image, qr yazdırma istekleri için ayrı ayrı endpointler
+# text, image, qr yazdırma istekleri için ayrı ayrı endpointler ve idempotency kontrolü
 #********************************************************************************************************************
 @api_view(["POST"])
 def print_text(request):
