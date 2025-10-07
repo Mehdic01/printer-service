@@ -59,12 +59,18 @@
         <button class="bg-green-600 text-white px-3 py-1 rounded">Print Image</button>
       </div>
     </form>
-    <p class="text-xs text-gray-500 mt-2">Not: Demo için base64 yapıştır. (Gerçekte API ile dosya/URL desteği verilebilir.)</p>
+    <p class="text-xs text-gray-500 mt-2">Not: Demo için base64. (Gerçekte API ile dosya/URL desteği verilebilir.)</p>
   </section>
 </div>
 
 <!-- JOBS -->
 <section class="bg-white rounded-xl shadow p-4 mt-4">
+      <div class="flex items-center justify-between mb-2">
+    <h2 class="font-semibold">İşler (Son 20)</h2>
+    <a class="text-sm text-blue-600 hover:underline" href="/api/logs.csv">
+      CSV indir
+    </a>
+  </div>
   <div id="jobs-panel"
        hx-get="{% url 'ui_jobs' %}"
        hx-trigger="load, every 2s">

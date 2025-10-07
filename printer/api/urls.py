@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import connect, status, print_text, print_image, print_qr, logs, reprint, health
+from .views import logs, logs_csv, connect, status, print_text, print_image, print_qr, logs, reprint, health
 
 urlpatterns = [
     path("connect", connect),
@@ -10,4 +10,6 @@ urlpatterns = [
     path("logs", logs),
     path("reprint", reprint),
     path("health", health),
+    path("logs.csv", logs_csv, name="logs_csv"),
+
 ]

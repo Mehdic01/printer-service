@@ -1,3 +1,4 @@
+import io
 from django.shortcuts import render
 from uuid import uuid4
 from rest_framework.decorators import api_view
@@ -5,6 +6,8 @@ from rest_framework.response import Response
 from ..services.connection_manager import cm
 from ..models import PrintJob
 from ..services.job_queue import enqueue
+from django.http import HttpResponse, StreamingHttpResponse
+import csv, os, json
 
 # bu post istegi ile yaziciya baglanilir
 #********************************************************************************************************************
@@ -105,3 +108,40 @@ def reprint(request):
 @api_view(["GET"])
 def health(request):
     return Response({"ok": True})
+
+
+
+
+LOG_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                        "..", "..", "logs", "logs.jsonl"))
+
+def logs_csv(request):
+    """
+    JSONL logları CSV olarak indir: ts,op,conn,jobId,status,error,detail
+    (dokümandaki alan adları birebir)
+    """
+    rows = [["ts","op","conn","jobId","status","error","detail"]]
+
+    if os.path.exists(LOG_FILE):
+        with open(LOG_FILE, "r", encoding="utf-8") as f:
+            for line in f:
+                try:
+                    rec = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                err = rec.get("error") or {}
+                rows.append([
+                    rec.get("ts",""),
+                    rec.get("op",""),
+                    rec.get("conn",""),
+                    rec.get("jobId",""),
+                    rec.get("status",""),
+                    err.get("code",""),
+                    err.get("detail",""),
+                ])
+
+    resp = HttpResponse(content_type="text/csv; charset=utf-8")
+    resp["Content-Disposition"] = 'attachment; filename="logs.csv"'
+    writer = csv.writer(resp, lineterminator="\n")  # başta boşluk olmaması için
+    writer.writerows(rows)
+    return resp
