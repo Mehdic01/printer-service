@@ -34,7 +34,11 @@ Bu proje, USB ve Ethernet üzerinden haberleşebilen bir termal yazıcı servisi
 
 ### Gereksinimler
 - Python 3.11+
+- Django 5.x  
 - Git
+- djangorestframework  
+- Pillow  
+- python-dotenv  
 
 ### Adımlar
 1.  **Projeyi klonlayın:**
