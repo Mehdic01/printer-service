@@ -1,0 +1,43 @@
+<table class="w-full text-sm">
+  <thead>
+    <tr class="border-b">
+      <th class="text-left py-2">JobID</th>
+      <th class="text-left">Type</th>
+      <th class="text-left">Status</th>
+      <th class="text-left">Error</th>
+      <th class="text-left">Created</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for j in jobs %}
+      <tr class="border-b">
+        <td class="py-2 font-mono">{{ j.job_id }}</td>
+        <td>{{ j.type }}</td>
+        <td>
+          {% if j.status == 'ok' %}
+            <span class="text-green-700 font-semibold">{{ j.status }}</span>
+          {% elif j.status == 'error' %}
+            <span class="text-red-700 font-semibold">{{ j.status }}</span>
+          {% else %}
+            <span class="text-gray-700">{{ j.status }}</span>
+          {% endif %}
+        </td>
+        <td>{{ j.error_code|default:"-" }}</td>
+        <td>{{ j.created_at|date:"H:i:s" }}</td>
+        <td>
+          <form hx-post="{% url 'ui_reprint' %}" 
+                hx-target="#jobs-panel" 
+                hx-swap="outerHTML" 
+                class="inline">
+            {% csrf_token %}
+            <input type="hidden" name="jobId" value="{{ j.job_id }}"/>
+            <button class="text-blue-600 hover:underline" type="submit">Tekrar Bastır</button>
+          </form>
+        </td>
+      </tr>
+    {% empty %}
+      <tr><td class="py-3 text-gray-500" colspan="6">Henüz iş yok.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>

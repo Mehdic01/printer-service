@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+  <!-- Status / Connect -->
+  <section class="bg-white rounded-xl shadow p-4">
+    <h2 class="font-semibold mb-3">Bağlantı ve Durum</h2>
+
+    <form class="flex gap-2 mb-3"
+          hx-post="{% url 'ui_connect' %}"
+          hx-target="#status-panel"
+          hx-swap="outerHTML">
+      {% csrf_token %}
+      <select name="mode" class="border rounded px-2 py-1">
+        <option value="mock">mock</option>
+        <option value="lan">lan</option>
+        <option value="usb">usb</option>
+      </select>
+      <button class="bg-blue-600 text-white px-3 py-1 rounded">Connect</button>
+    </form>
+
+    <div id="status-panel"
+         hx-get="{% url 'ui_status' %}"
+         hx-trigger="load, every 2s">
+      <!-- partial status buraya gelir -->
+      <div class="text-gray-500">Yükleniyor…</div>
+    </div>
+  </section>
+
+  <!-- Print TEXT -->
+  <section class="bg-white rounded-xl shadow p-4">
+    <h2 class="font-semibold mb-3">Metin Bastır</h2>
+    <form hx-post="{% url 'ui_print_text' %}" hx-target="#jobs-panel" hx-swap="outerHTML">
+        {% csrf_token %}
+      <textarea name="text" rows="6" class="w-full border rounded p-2" placeholder="Örn: Merhaba Dünya\nToplam: 125₺"></textarea>
+      <div class="mt-2 flex justify-end">
+        <button class="bg-green-600 text-white px-3 py-1 rounded">Print</button>
+      </div>
+    </form>
+    <hr class="my-4"/>
+    <h3 class="font-semibold mb-2">QR Bastır</h3>
+    <form class="flex gap-2" hx-post="{% url 'ui_print_qr' %}" hx-target="#jobs-panel" hx-swap="outerHTML">
+      <input name="data" class="border rounded px-2 py-1 w-full" placeholder="QR data (Order#123)"/>
+      <input name="size" class="border rounded px-2 py-1 w-20" value="6"/>
+      <button class="bg-green-600 text-white px-3 py-1 rounded">Print QR</button>
+    </form>
+  </section>
+
+  <!-- Print IMAGE (base64 hızlı demo) -->
+  <section class="bg-white rounded-xl shadow p-4">
+    <h2 class="font-semibold mb-3">Görsel Bastır (base64)</h2>
+    <form hx-post="{% url 'ui_print_image' %}" hx-target="#jobs-panel" hx-swap="outerHTML">
+        {% csrf_token %}
+      <textarea name="base64" rows="5" class="w-full border rounded p-2" placeholder="voucher1.jpeg base64"></textarea>
+      <div class="mt-2 flex gap-2 items-center justify-between">
+        <div>
+          <label class="text-sm mr-1">Width</label>
+          <input name="width" class="border rounded px-2 py-1 w-24" value="384"/>
+        </div>
+        <button class="bg-green-600 text-white px-3 py-1 rounded">Print Image</button>
+      </div>
+    </form>
+    <p class="text-xs text-gray-500 mt-2">Not: Demo için base64 yapıştır. (Gerçekte API ile dosya/URL desteği verilebilir.)</p>
+  </section>
+</div>
+
+<!-- JOBS -->
+<section class="bg-white rounded-xl shadow p-4 mt-4">
+  <div id="jobs-panel"
+       hx-get="{% url 'ui_jobs' %}"
+       hx-trigger="load, every 2s">
+    <!-- partial jobs buraya gelir -->
+    <div class="text-gray-500">Yükleniyor…</div>
+  </div>
+</section>
+{% endblock %}

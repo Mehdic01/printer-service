@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.urls import include, path
+from printer.ui.views import ui_index, ui_status_partial, ui_jobs_partial, ui_connect, ui_print_text, ui_reprint, ui_print_qr, ui_print_image
+
 
 #bu dosya projenin ana url dosyasi, burada api/ altinda printer.api.urls dosyasini include ediyoruz ve boylece api/ altindaki tum endpointler printer/api/urls.py dosyasinda tanimlanmis oluyor
 #Django'nun sagladigi admin arayuzu icin de admin/ altinda admin.site.urls'u include ettim 
