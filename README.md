@@ -2,7 +2,6 @@
 
 Bu proje, USB ve Ethernet üzerinden haberleşebilen bir termal yazıcı servisi simülasyonudur. Proje, Django ve Django Rest Framework kullanılarak geliştirilmiştir ve temel olarak bir yazdırma servisi API'si ile bu servisin durumunu izlemeyi sağlayan basit bir kullanıcı arayüzü sunar.
 
-![UI Screenshot](https://i.imgur.com/your-screenshot-url.png) <!-- TODO: Buraya bir ekran görüntüsü URL'si ekleyin -->
 
 ---
 

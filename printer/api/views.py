@@ -111,7 +111,8 @@ def health(request):
 
 
 
-
+# loglama fonksiyonu (job_queue ve views tarafından kullanılır)
+#********************************************************************************************************************
 LOG_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__),
                                         "..", "..", "logs", "logs.jsonl"))
 

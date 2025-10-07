@@ -1,5 +1,7 @@
 from ..drivers.mock import MockDriver
 
+# BU DOSYA SADECE TEK BİR CONNECTION MANAGER İÇERİR
+# Singleton pattern ile tek instance sağlanır
 class ConnectionManager:
     _instance = None
     def __new__(cls):
