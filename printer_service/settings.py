@@ -50,7 +50,7 @@ ROOT_URLCONF = 'printer_service.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"], # templates klasorunu isaret eder 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
