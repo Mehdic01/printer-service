@@ -5,9 +5,9 @@ Bu proje, USB ve Ethernet üzerinden haberleşebilen bir termal yazıcı servisi
 
 ---
 
-##  архитектура и технологии
+##  Mimari ve Teknolojiler
 
-- **Backend**: Django, Django Rest Framework
+- **Backend**: Django, Django Rest Framework, MVT mimarisi
 - **Frontend**: Django Templates, HTML, HTMX, TailwindCSS, JavaScript (Fetch API)
 - **Veritabanı**: SQLite (varsayılan)
 - **Yazıcı Sürücüleri**: Mock (simülasyon) sürücüler. Gerçek bir donanım gerektirmez.
